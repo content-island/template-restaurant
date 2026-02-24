@@ -1,0 +1,93 @@
+---
+import type { LanguageCode } from '@content-island/api-client';
+import { getLocationSection } from '@layouts/api';
+
+interface Props {
+  lang?: LanguageCode;
+  sectionId: string;
+}
+
+const { lang = 'en', sectionId } = Astro.props;
+
+const locationSection = await getLocationSection(lang);
+
+const title = locationSection.title;
+const description = locationSection.description;
+const addressTitle = locationSection.addressTitle;
+const address = locationSection.address;
+const timeTablesTitle = locationSection.timeTablesTitle;
+const timeTables = locationSection.timeTables;
+const mapEmbedUrl = locationSection.map_url;
+---
+
+<section class="flex items-center justify-center bg-bg py-12 md:py-big-4 px-4 md:px-big-3 gap-8 md:gap-big-2" id={sectionId}>
+  <div class="flex flex-col md:flex-row-reverse gap-xl md:gap-2xl w-full max-w-[var(--container-max-width)]">
+    
+    <!-- Location Info -->
+    <div class="flex flex-col gap-xl flex-1 py-md">
+      <!-- Location Header -->
+      <div class="flex flex-col gap-md w-full">
+        <h2 class="font-title text-2xl font-bold text-text m-0">
+          {title}
+        </h2>
+        
+        <!-- Italian Accent Green -->
+        <div class="flex items-center gap-md" aria-hidden="true">
+          <div class="w-16 h-1 bg-secondary-500 rounded-sm"></div>
+        </div>
+        
+        <p class="font-body text-sm font-normal text-text-85 leading-[1.4] w-full m-0">
+          {description}
+        </p>
+      </div>
+      
+      <!-- Location Details -->
+      <div class="flex flex-col gap-lg w-full">
+        <!-- Address -->
+        <div class="flex flex-col gap-sm w-full">
+          <h4 class="font-body text-md font-semibold text-text-85 m-0">
+            {addressTitle}
+          </h4>
+          <p class="font-body text-sm font-normal text-text-85 leading-normal m-0">
+            {address}
+          </p>
+        </div>
+        
+        <!-- Hours -->
+        <div class="flex flex-col gap-sm w-full">
+          <h4 class="font-body text-md font-semibold text-text-85 m-0">
+            {timeTablesTitle}
+          </h4>
+          {timeTables.split('\\n').map((line) => (
+            <p class="font-body text-sm font-normal text-text-85 leading-normal m-0">
+              {line}
+            </p>
+          ))}
+        </div>
+      </div>
+    </div>
+
+        <!-- Map Container (visible on desktop) -->
+    <div class="flex-1 flex flex-col min-h-[400px] rounded-lg overflow-hidden bg-primary-100 border-gradient">
+      {mapEmbedUrl ? (
+
+        <iframe 
+          src={mapEmbedUrl}
+          class="flex-1 border-none"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Restaurant location"
+        ></iframe>
+
+      ) : (
+        <div class="flex flex-col items-center justify-center h-full text-text-60 gap-md">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+          <p>Map not available</p>
+        </div>
+      )}
+    </div>
+  </div>
+</section>

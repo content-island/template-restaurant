@@ -1,0 +1,43 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { Header, Footer } from '@layouts/components';
+import { getHeader } from '@layouts/api';
+import { 
+  HeroSection, 
+  MenuSection, 
+  RestaurantSection, 
+  LocationSection, 
+  ReservationsSection 
+} from '@pods/home';
+
+// Language for the page - Content Island only has 'en'
+const lang = 'en';
+
+// Get header data to extract section IDs from navigation URLs
+const header = await getHeader(lang);
+
+// Helper to extract section ID from URL (e.g., "/menu" -> "menu", "/#services" -> "services")
+const extractSectionId = (url: string): string => url.replace(/^\/?#?/, '');
+
+// Extract section IDs from Content Island navigation items
+const sectionIds = {
+  menu: extractSectionId(header.Menu.url),
+  restaurant: extractSectionId(header.Restaurant.url),
+  location: extractSectionId(header.Location.url),
+  contact: extractSectionId(header.Contact.url),
+};
+---
+
+<Layout lang={lang}>
+  <Header lang={lang} />
+  
+  <main>
+    <HeroSection lang={lang} contactSectionId={sectionIds.contact} />
+    <MenuSection lang={lang} sectionId={sectionIds.menu} />
+    <RestaurantSection lang={lang} sectionId={sectionIds.restaurant} />
+    <LocationSection lang={lang} sectionId={sectionIds.location} />
+    <ReservationsSection lang={lang} sectionId={sectionIds.contact} />
+  </main>
+  
+  <Footer lang={lang} />
+</Layout>

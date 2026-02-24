@@ -1,0 +1,58 @@
+---
+import type { LanguageCode } from '@content-island/api-client';
+import { getHero } from '@layouts/api';
+
+interface Props {
+  lang?: LanguageCode;
+  contactSectionId: string;
+}
+
+const { lang = 'en', contactSectionId } = Astro.props;
+
+const hero = await getHero(lang);
+
+const title = hero.title;
+const subtitle = hero.subtitle;
+const ctaText = hero.cta;
+const backgroundImage = hero.backgroundImage;
+const ctaHref = `#${contactSectionId}`;
+---
+
+<section class="relative flex items-center justify-center min-h-[668px] py-12 md:py-big-4 px-4 md:px-big-3 overflow-hidden" id="hero">
+  <!-- Background Image -->
+  <div class="absolute inset-0 z-0">
+    {backgroundImage.url && (
+      <img 
+        src={backgroundImage.url} 
+        alt={backgroundImage.alt ?? title}
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+    )}
+    <!-- Gradient Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
+  </div>
+  
+  <!-- Content -->
+  <div class="relative z-10 flex flex-col items-center gap-xl text-center max-w-[800px]">
+    <div class="flex flex-col items-center gap-lg">
+      <div class="flex flex-col items-center gap-sm">
+        <h1 class="font-title text-3xl font-bold text-text-contrast m-0 drop-shadow-md">
+          {title}
+        </h1>
+        <!-- Italian Accent (Red line) -->
+        <div class="flex items-center justify-center gap-sm" aria-hidden="true">
+          <div class="w-16 h-1 bg-primary-500 rounded-sm"></div>
+        </div>
+      </div>
+    </div>
+    
+    <p class="font-title text-xl font-normal text-white m-0 drop-shadow-sm">
+      {subtitle}
+    </p>
+    
+    <a href={ctaHref} class="inline-flex items-center gap-sm py-md px-lg bg-primary-500 text-text-contrast font-body text-md font-bold rounded-full no-underline hover:bg-primary-600 transition-colors">
+      {ctaText}
+    </a>
+  </div>
+</section>

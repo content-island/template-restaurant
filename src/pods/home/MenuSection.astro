@@ -1,0 +1,54 @@
+---
+import type { LanguageCode } from '@content-island/api-client';
+import { getMenuSection } from '@layouts/api';
+
+interface Props {
+  lang?: LanguageCode;
+  sectionId: string;
+}
+
+const { lang = 'en', sectionId } = Astro.props;
+
+const menuSection = await getMenuSection(lang);
+
+const title = menuSection.title;
+const description = menuSection.description;
+const buttonText = menuSection.buttonText;
+const menuFileUrl = menuSection.menuFile?.url;
+---
+
+<section class="flex items-center justify-center bg-bg py-12 md:py-big-4 px-4 md:px-big-3 gap-8 md:gap-big-2" id={sectionId}>
+  <div class="flex flex-col items-center gap-lg w-full">
+    <!-- Menu Header -->
+    <div class="flex flex-col items-center gap-md">
+      <h2 class="font-title text-2xl font-bold text-text text-center m-0">
+        {title}
+      </h2>
+      
+      <!-- Italian Accent Green -->
+      <div class="flex items-center justify-center gap-md" aria-hidden="true">
+        <div class="w-16 h-1 bg-secondary-500 rounded-sm"></div>
+      </div>
+      
+      <p class="font-body text-sm font-normal text-text-85 text-center leading-[1.4] max-w-[736px] m-0">
+        {description}
+      </p>
+    </div>
+    
+    <!-- Menu CTA -->
+    <a 
+      href={menuFileUrl} 
+      class="inline-flex items-center gap-sm py-sm-md px-md border border-primary-500 bg-transparent text-primary-500 font-body text-xs font-semibold rounded-default no-underline hover:bg-primary-600 hover:text-text-contrast transition-colors"
+      download 
+      target="_blank" 
+      rel="noopener noreferrer"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+      {buttonText}
+    </a>
+  </div>
+</section>

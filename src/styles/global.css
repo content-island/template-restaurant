@@ -1,0 +1,302 @@
+@import 'tailwindcss';
+
+/* ============================================
+   1. CUSTOM VARIANT (debe ir antes de :root)
+   ============================================ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================
+   2. VARIABLES BASE (Content Island puede sobrescribir)
+   ============================================ */
+:root {
+  /* ----- Colores Base (rojo primario, verde secundario) ----- */
+  --color-primary: #b91c1c;
+  --color-secondary: #16a34a;
+
+  /* ----- Fuentes Base (Libre Baskerville + Inter) ----- */
+  --font-name-title: 'Libre Baskerville';
+  --font-name-body: 'Inter';
+}
+
+/* ============================================
+   3. VARIABLES DERIVADAS (calculadas desde base)
+   ============================================ */
+:root {
+  /* ----- Fuentes con Fallback ----- */
+  --font-title: var(--font-name-title), serif;
+  --font-body: var(--font-name-body), sans-serif;
+
+  /* ----- Escala Primary (Rojo) ----- */
+  --color-primary-50: color-mix(in oklab, var(--color-primary) 1.5%, white);
+  --color-primary-100: color-mix(in oklab, var(--color-primary) 6%, white);
+  --color-primary-200: color-mix(in oklab, var(--color-primary) 11%, white);
+  --color-primary-300: color-mix(in oklab, var(--color-primary) 25%, white);
+  --color-primary-400: color-mix(in oklab, var(--color-primary) 42%, white);
+  --color-primary-500: var(--color-primary);
+  --color-primary-600: color-mix(in oklab, var(--color-primary) 80%, black);
+  --color-primary-700: color-mix(in oklab, var(--color-primary) 70%, black);
+  --color-primary-800: color-mix(in oklab, var(--color-primary) 38%, black);
+  --color-primary-900: color-mix(in oklab, var(--color-primary) 32%, black);
+  --color-primary-950: color-mix(in oklab, var(--color-primary) 22%, black);
+
+  /* ----- Escala Secondary (Verde) ----- */
+  --color-secondary-50: color-mix(in oklab, var(--color-secondary) 1.5%, white);
+  --color-secondary-100: color-mix(in oklab, var(--color-secondary) 6%, white);
+  --color-secondary-200: color-mix(in oklab, var(--color-secondary) 11%, white);
+  --color-secondary-300: color-mix(in oklab, var(--color-secondary) 25%, white);
+  --color-secondary-400: color-mix(in oklab, var(--color-secondary) 42%, white);
+  --color-secondary-500: var(--color-secondary);
+  --color-secondary-600: color-mix(in oklab, var(--color-secondary) 80%, black);
+  --color-secondary-700: color-mix(in oklab, var(--color-secondary) 70%, black);
+  --color-secondary-800: color-mix(in oklab, var(--color-secondary) 38%, black);
+  --color-secondary-900: color-mix(in oklab, var(--color-secondary) 32%, black);
+  --color-secondary-950: color-mix(in oklab, var(--color-secondary) 22%, black);
+
+  /* ----- Colores Semánticos ----- */
+  --color-text: #0a0a0a;
+  --color-text-contrast: #fafafa;
+  --color-bg: var(--color-primary-100);
+  --color-bg-white: #ffffff;
+  --color-bg-subtle: var(--color-primary-200);
+  --color-border: #d6d3d1;
+
+  /* ----- Opacidades de Texto ----- */
+  --color-text-90: hsl(from var(--color-text) h s l / 0.9);
+  --color-text-85: hsl(from var(--color-text) h s l / 0.85);
+  --color-text-60: hsl(from var(--color-text) h s l / 0.6);
+  --color-text-40: hsl(from var(--color-text) h s l / 0.4);
+
+  /* ----- Escala Tipográfica Fluida (360px a 1440px) ----- */
+  --text-2xs: clamp(0.75rem, 0.7361rem + 0.0617vw, 0.8125rem);
+  --text-xs: clamp(0.875rem, 0.8194rem + 0.2469vw, 1rem);
+  --text-sm: clamp(1rem, 0.8889rem + 0.4938vw, 1.25rem);
+  --text-md: clamp(1.125rem, 0.931rem + 0.8642vw, 1.5625rem);
+  --text-lg: clamp(1.375rem, 1.1259rem + 1.1080vw, 1.9375rem);
+  --text-xl: clamp(1.625rem, 1.2648rem + 1.6049vw, 2.4375rem);
+  --text-2xl: clamp(2rem, 1.5278rem + 2.0988vw, 3.0625rem);
+  --text-3xl: clamp(2.5rem, 1.9167rem + 2.5926vw, 3.8125rem);
+
+  /* ----- Line Heights ----- */
+  --leading-tight: 1.15;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* ----- Espaciado ----- */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-sm-md: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 40px;
+  --spacing-big-1: 48px;
+  --spacing-big-2: 56px;
+  --spacing-big-3: 64px;
+  --spacing-big-4: 80px;
+
+  /* ----- Border Radius ----- */
+  --radius-sm: 4px;
+  --radius-default: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ----- Containers ----- */
+  --container-max-width: 1440px;
+  --content-max-width: 670px;
+
+  /* ----- Colores de Estado ----- */
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+.dark {
+  --color-text: #fafafa;
+  --color-text-contrast: #0a0a0a;
+  --color-bg: #1c1414;
+  --color-bg-white: #0e0e0e;
+  --color-bg-subtle: #0e0e0e;
+  --color-border: #262626;
+}
+
+html.dark {
+  color-scheme: dark;
+  font-weight: 300;
+}
+
+/* ============================================
+   TAILWIND 4 - @theme MAPPING
+   ============================================ */
+@theme {
+  /* Colores Primary */
+  --color-primary-50: var(--color-primary-50);
+  --color-primary-100: var(--color-primary-100);
+  --color-primary-200: var(--color-primary-200);
+  --color-primary-300: var(--color-primary-300);
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-primary-700: var(--color-primary-700);
+  --color-primary-800: var(--color-primary-800);
+  --color-primary-900: var(--color-primary-900);
+  --color-primary-950: var(--color-primary-950);
+
+  /* Colores Secondary */
+  --color-secondary-50: var(--color-secondary-50);
+  --color-secondary-100: var(--color-secondary-100);
+  --color-secondary-200: var(--color-secondary-200);
+  --color-secondary-300: var(--color-secondary-300);
+  --color-secondary-400: var(--color-secondary-400);
+  --color-secondary-500: var(--color-secondary-500);
+  --color-secondary-600: var(--color-secondary-600);
+  --color-secondary-700: var(--color-secondary-700);
+  --color-secondary-800: var(--color-secondary-800);
+  --color-secondary-900: var(--color-secondary-900);
+  --color-secondary-950: var(--color-secondary-950);
+
+  /* Colores de Texto */
+  --color-text: var(--color-text);
+  --color-text-contrast: var(--color-text-contrast);
+  --color-text-90: var(--color-text-90);
+  --color-text-85: var(--color-text-85);
+  --color-text-60: var(--color-text-60);
+  --color-text-40: var(--color-text-40);
+
+  /* Colores de Fondo */
+  --color-bg: var(--color-bg);
+  --color-bg-white: var(--color-bg-white);
+  --color-bg-subtle: var(--color-bg-subtle);
+  --color-border: var(--color-border);
+
+  /* Tipografia */
+  --font-title: var(--font-title);
+  --font-body: var(--font-body);
+
+  --text-2xs: var(--text-2xs);
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-md: var(--text-md);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-3xl: var(--text-3xl);
+
+  /* Espaciado */
+  --spacing-xs: var(--spacing-xs);
+  --spacing-sm: var(--spacing-sm);
+  --spacing-sm-md: var(--spacing-sm-md);
+  --spacing-md: var(--spacing-md);
+  --spacing-lg: var(--spacing-lg);
+  --spacing-xl: var(--spacing-xl);
+  --spacing-2xl: var(--spacing-2xl);
+  --spacing-big-1: var(--spacing-big-1);
+  --spacing-big-2: var(--spacing-big-2);
+  --spacing-big-3: var(--spacing-big-3);
+  --spacing-big-4: var(--spacing-big-4);
+
+  /* Border Radius */
+  --radius-sm: var(--radius-sm);
+  --radius-default: var(--radius-default);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-full: var(--radius-full);
+
+  /* Containers */
+  --container-max-width: var(--container-max-width);
+  --content-max-width: var(--content-max-width);
+
+  /* Colores de estado */
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+  --color-info: var(--color-info);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: var(--leading-normal);
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+}
+
+/* ============================================
+   MOBILE MENU ANIMATIONS
+   ============================================ */
+.mobile-menu {
+  transform: translateX(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.mobile-menu.active {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.hamburger-line {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.hamburger.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* ============================================
+   GRADIENT BORDER
+   ============================================ */
+.border-gradient {
+  position: relative;
+  border: none;
+}
+
+.border-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 4px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}

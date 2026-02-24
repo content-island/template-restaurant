@@ -1,0 +1,70 @@
+---
+import type { LanguageCode } from '@content-island/api-client';
+import { getTheme, getPageMeta, getHeader } from '@layouts/api';
+import '@/styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: LanguageCode;
+}
+
+const { lang = 'en' } = Astro.props;
+
+// Fetch content from Content Island
+const [theme, pageMeta, header] = await Promise.all([
+  getTheme(lang),
+  getPageMeta(lang),
+  getHeader(lang),
+]);
+
+// Build dynamic CSS variables from Content Island theme
+const themeVariables = `
+  --font-name-title: ${theme.fontTitle.name};
+  --font-name-body: ${theme.fontBody.name};
+  --color-primary: ${theme.colorPrimary};
+  --color-secondary: ${theme.colorSecondary};
+`;
+
+// SEO metadata
+const siteName = header.restaurantName?.label ?? 'La Dolce Tavola';
+const title = Astro.props.title ?? pageMeta.title;
+const description = Astro.props.description ?? pageMeta.description;
+
+// Google Fonts URLs
+const fontTitleUrl = theme.fontTitle.url;
+const fontBodyUrl = theme.fontBody.url;
+---
+
+<!doctype html>
+<html lang={lang} style={themeVariables}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Google Fonts -->
+    <link href={fontTitleUrl} rel="stylesheet" />
+    <link href={fontBodyUrl} rel="stylesheet" />
+    
+    <!-- Page Title -->
+    <title>{title}</title>
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
