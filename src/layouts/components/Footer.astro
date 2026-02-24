@@ -28,9 +28,9 @@ const privacyLink = footer.privacyPolicy;
 
 <footer class="bg-secondary-900 md:p-xl p-4">
   <div class="gap-lg pb-md mx-auto flex w-full max-w-[var(--container-max-width)] flex-col">
-    <!-- Top Section: Brand + Social + Contact (gap-xl between them) -->
-    <div class="gap-xl flex flex-col">
-      <div class="gap-xl flex w-full flex-col md:flex-row md:items-start md:justify-between">
+    <div class="gap-xl flex w-full flex-col md:flex-row md:items-start md:justify-between">
+      <!-- Left Column: Brand + Contact Info -->
+      <div class="gap-xl flex flex-col">
         <!-- Brand Section -->
         <div class="gap-sm flex flex-col">
           <a
@@ -44,9 +44,18 @@ const privacyLink = footer.privacyPolicy;
           </p>
         </div>
 
-        <!-- Social Links -->
-        {
-          socialMediaCollection.length > 0 && (
+        <!-- Contact Info -->
+        <div class="gap-sm flex flex-col">
+          <p class="font-body text-secondary-50 m-0 text-base">{contactInfo}</p>
+          <p class="font-body text-secondary-50 m-0 text-base">{addressLine}</p>
+        </div>
+      </div>
+
+      <!-- Right Column: Social Links + Language Selector -->
+      {
+        socialMediaCollection.length > 0 && (
+          <div class="gap-xl flex flex-col">
+            <!-- Social Links -->
             <div class="gap-md flex flex-col">
               <p class="font-body text-secondary-50 m-0 text-xs font-medium">{socialMediaTitle}</p>
               <div class="gap-md flex">
@@ -66,34 +75,29 @@ const privacyLink = footer.privacyPolicy;
                   </a>
                 ))}
               </div>
-              {LANGUAGES.length > 1 && (
-                <select
-                  id="language-select"
-                  aria-label="Select language"
-                  class="bg-primary-950 dark:bg-primary-900 text-primary-50 border-primary-50 focus-visible:outline-primary-400 w-full max-w-[219px] cursor-pointer appearance-none border bg-[url('/ArrowDown.svg')] bg-size-[28px] bg-position-[calc(100%-6px)_50%] bg-no-repeat px-(--spacing-sm) py-[6.4px] pr-[38px] text-[14px] focus-visible:border-transparent focus-visible:outline-[1.5px]"
-                  style="grid-area: language;"
-                >
-                  {LANGUAGES.map(language => {
-                    const slugPart = currentSlug ? `/${currentSlug}` : '/';
-                    const optionValue = languagePaths?.[language] ?? `/${language}${slugPart}`;
-                    return (
-                      <option value={optionValue} selected={lang === language}>
-                        {LANGUAGE_NAMES[language]}
-                      </option>
-                    );
-                  })}
-                </select>
-              )}
             </div>
-          )
-        }
-      </div>
 
-      <!-- Contact Info -->
-      <div class="gap-sm flex flex-col">
-        <p class="font-body text-secondary-50 m-0 text-base">{contactInfo}</p>
-        <p class="font-body text-secondary-50 m-0 text-base">{addressLine}</p>
-      </div>
+            <!-- Language Selector -->
+            {LANGUAGES.length > 1 && (
+              <select
+                id="language-select"
+                aria-label="Select language"
+                class="bg-primary-950 dark:bg-primary-900 text-primary-50 border-primary-50 focus-visible:outline-primary-400 w-full cursor-pointer appearance-none border bg-[url('/ArrowDown.svg')] bg-size-[28px] bg-position-[calc(100%-6px)_50%] bg-no-repeat px-(--spacing-sm) py-[6.4px] pr-[38px] text-[14px] focus-visible:border-transparent focus-visible:outline-[1.5px]"
+              >
+                {LANGUAGES.map(language => {
+                  const slugPart = currentSlug ? `/${currentSlug}` : '/';
+                  const optionValue = languagePaths?.[language] ?? `/${language}${slugPart}`;
+                  return (
+                    <option value={optionValue} selected={lang === language}>
+                      {LANGUAGE_NAMES[language]}
+                    </option>
+                  );
+                })}
+              </select>
+            )}
+          </div>
+        )
+      }
     </div>
   </div>
 
