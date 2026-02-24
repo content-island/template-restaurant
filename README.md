@@ -35,19 +35,23 @@ src/
 Los tokens de diseño están basados en el archivo `landing-pizzeria.pen` y siguen la documentación en `design-system-docs/`.
 
 ### Colores principales
+
 - **Primary**: Amber (#b45309)
 - **Secondary**: Violet (#7c3aed)
 
 ### Tipografía
+
 - **Títulos**: Libre Baskerville (serif)
 - **Cuerpo**: Inter (sans-serif)
 
 ### Espaciado responsivo
+
 Usa variables CSS con `clamp()` para escalado fluido entre mobile (360px) y desktop (1440px).
 
 ## 🛠️ Desarrollo
 
 ### Requisitos previos
+
 - Node.js 18+
 - npm o pnpm
 
@@ -67,11 +71,11 @@ CONTENT_ISLAND_TOKEN=tu_token_aqui
 
 ### Comandos
 
-| Comando | Descripción |
-|---------|-------------|
-| `npm run dev` | Inicia servidor de desarrollo en `localhost:4321` |
-| `npm run build` | Genera sitio estático en `./dist/` |
-| `npm run preview` | Preview del build |
+| Comando           | Descripción                                       |
+| ----------------- | ------------------------------------------------- |
+| `npm run dev`     | Inicia servidor de desarrollo en `localhost:4321` |
+| `npm run build`   | Genera sitio estático en `./dist/`                |
+| `npm run preview` | Preview del build                                 |
 
 ## 📝 Notas de Content Island
 

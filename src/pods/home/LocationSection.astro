@@ -20,74 +20,86 @@ const timeTables = locationSection.timeTables;
 const mapEmbedUrl = locationSection.map_url;
 ---
 
-<section class="flex items-center justify-center bg-bg py-12 md:py-big-4 px-4 md:px-big-3 gap-8 md:gap-big-2" id={sectionId}>
-  <div class="flex flex-col md:flex-row-reverse gap-xl md:gap-2xl w-full max-w-[var(--container-max-width)]">
-    
+<section
+  class="bg-bg md:py-big-4 md:px-big-3 md:gap-big-2 flex items-center justify-center gap-8 px-4 py-12"
+  id={sectionId}
+>
+  <div class="gap-xl md:gap-2xl flex w-full max-w-[var(--container-max-width)] flex-col md:flex-row-reverse">
     <!-- Location Info -->
-    <div class="flex flex-col gap-xl flex-1 py-md">
+    <div class="gap-xl py-md flex flex-1 flex-col">
       <!-- Location Header -->
-      <div class="flex flex-col gap-md w-full">
-        <h2 class="font-title text-2xl font-bold text-text m-0">
+      <div class="gap-md flex w-full flex-col">
+        <h2 class="font-title text-text m-0 text-2xl font-bold">
           {title}
         </h2>
-        
+
         <!-- Italian Accent Green -->
-        <div class="flex items-center gap-md" aria-hidden="true">
-          <div class="w-16 h-1 bg-secondary-500 rounded-sm"></div>
+        <div class="gap-md flex items-center" aria-hidden="true">
+          <div class="bg-secondary-500 h-1 w-16 rounded-sm"></div>
         </div>
-        
-        <p class="font-body text-sm font-normal text-text-85 leading-[1.4] w-full m-0">
+
+        <p class="font-body text-text-85 m-0 w-full text-sm leading-[1.4] font-normal">
           {description}
         </p>
       </div>
-      
+
       <!-- Location Details -->
-      <div class="flex flex-col gap-lg w-full">
+      <div class="gap-lg flex w-full flex-col">
         <!-- Address -->
-        <div class="flex flex-col gap-sm w-full">
-          <h4 class="font-body text-md font-semibold text-text-85 m-0">
+        <div class="gap-sm flex w-full flex-col">
+          <h4 class="font-body text-md text-text-85 m-0 font-semibold">
             {addressTitle}
           </h4>
-          <p class="font-body text-sm font-normal text-text-85 leading-normal m-0">
+          <p class="font-body text-text-85 m-0 text-sm leading-normal font-normal">
             {address}
           </p>
         </div>
-        
+
         <!-- Hours -->
-        <div class="flex flex-col gap-sm w-full">
-          <h4 class="font-body text-md font-semibold text-text-85 m-0">
+        <div class="gap-sm flex w-full flex-col">
+          <h4 class="font-body text-md text-text-85 m-0 font-semibold">
             {timeTablesTitle}
           </h4>
-          {timeTables.split('\\n').map((line) => (
-            <p class="font-body text-sm font-normal text-text-85 leading-normal m-0">
-              {line}
-            </p>
-          ))}
+          {
+            timeTables
+              .split('\\n')
+              .map(line => <p class="font-body text-text-85 m-0 text-sm leading-normal font-normal">{line}</p>)
+          }
         </div>
       </div>
     </div>
 
-        <!-- Map Container (visible on desktop) -->
-    <div class="flex-1 flex flex-col min-h-[400px] rounded-lg overflow-hidden bg-primary-100 border-gradient">
-      {mapEmbedUrl ? (
-
-        <iframe 
-          src={mapEmbedUrl}
-          class="flex-1 border-none"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="Restaurant location"
-        ></iframe>
-
-      ) : (
-        <div class="flex flex-col items-center justify-center h-full text-text-60 gap-md">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-            <circle cx="12" cy="10" r="3" />
-          </svg>
-          <p>Map not available</p>
-        </div>
-      )}
+    <!-- Map Container (visible on desktop) -->
+    <div class="bg-primary-100 border-gradient flex min-h-[400px] flex-1 flex-col overflow-hidden rounded-lg">
+      {
+        mapEmbedUrl ? (
+          <iframe
+            src={mapEmbedUrl}
+            class="flex-1 border-none"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Restaurant location"
+          />
+        ) : (
+          <div class="text-text-60 gap-md flex h-full flex-col items-center justify-center">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <p>Map not available</p>
+          </div>
+        )
+      }
     </div>
   </div>
 </section>

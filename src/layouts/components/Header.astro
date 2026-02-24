@@ -29,60 +29,83 @@ const ctaHref = toAnchor(header.Contact.url);
 ---
 
 <!-- Desktop Header -->
-<header class="hidden md:flex items-center justify-between py-lg px-4 md:px-big-3 bg-bg-white border-b border-border sticky top-0 z-[100]">
-  <a href={homeUrl} class="font-title text-lg font-normal text-primary-500 no-underline hover:text-primary-500-700 transition-colors">
+<header
+  class="py-lg md:px-big-3 bg-bg-white border-border sticky top-0 z-[100] hidden items-center justify-between border-b px-4 md:flex"
+>
+  <a
+    href={homeUrl}
+    class="font-title text-primary-500 hover:text-primary-500-700 text-lg font-normal no-underline transition-colors"
+  >
     {siteName}
   </a>
-  
-  <nav class="flex items-center gap-xl">
-    <ul class="flex items-center gap-xl list-none m-0 p-0">
-      {navLinks.map((link) => (
-        <li>
-          <a href={link.href} class="font-body text-sm font-medium text-text no-underline hover:text-primary-500 transition-colors">
-            {link.label}
-          </a>
-        </li>
-      ))}
+
+  <nav class="gap-xl flex items-center">
+    <ul class="gap-xl m-0 flex list-none items-center p-0">
+      {
+        navLinks.map(link => (
+          <li>
+            <a
+              href={link.href}
+              class="font-body text-text hover:text-primary-500 text-sm font-medium no-underline transition-colors"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
     </ul>
-    
-    <a href={ctaHref} class="flex items-center gap-xs py-sm px-lg bg-primary-500 text-text-contrast font-body text-xs font-semibold rounded-full no-underline hover:bg-primary-600 transition-colors">
+
+    <a
+      href={ctaHref}
+      class="gap-xs py-sm px-lg bg-primary-500 text-text-contrast font-body hover:bg-primary-600 flex items-center rounded-full text-xs font-semibold no-underline transition-colors"
+    >
       {ctaText}
     </a>
   </nav>
 </header>
 
 <!-- Mobile Header -->
-<header class="flex md:hidden items-center justify-between py-sm px-sm-md bg-bg-white sticky top-0 z-[100]">
-  <a href={homeUrl} class="font-title text-md font-bold text-primary-500 no-underline">
+<header class="py-sm px-sm-md bg-bg-white sticky top-0 z-[100] flex items-center justify-between md:hidden">
+  <a href={homeUrl} class="font-title text-md text-primary-500 font-bold no-underline">
     {siteName}
   </a>
-  
-  <button 
-    class="hamburger flex flex-col justify-center gap-1.5 w-10 h-10 p-2 bg-transparent border-none cursor-pointer"
+
+  <button
+    class="hamburger flex h-10 w-10 cursor-pointer flex-col justify-center gap-1.5 border-none bg-transparent p-2"
     aria-label="Abrir menú"
     aria-expanded="false"
     data-menu-toggle
   >
-    <span class="hamburger-line block w-6 h-0.5 bg-text rounded-sm"></span>
-    <span class="hamburger-line block w-6 h-0.5 bg-text rounded-sm"></span>
-    <span class="hamburger-line block w-6 h-0.5 bg-text rounded-sm"></span>
+    <span class="hamburger-line bg-text block h-0.5 w-6 rounded-sm"></span>
+    <span class="hamburger-line bg-text block h-0.5 w-6 rounded-sm"></span>
+    <span class="hamburger-line bg-text block h-0.5 w-6 rounded-sm"></span>
   </button>
 </header>
 
 <!-- Mobile Menu Overlay -->
-<div class="mobile-menu fixed inset-0 top-12 bg-bg-white z-[99] flex flex-col p-xl md:hidden" data-mobile-menu>
-  <nav class="flex flex-col gap-xl justify-between h-full">
-    <ul class="flex flex-col gap-lg list-none m-0 p-0">
-      {navLinks.map((link) => (
-        <li>
-          <a href={link.href} class="font-body text-lg font-medium text-text no-underline hover:text-primary-500" data-menu-close>
-            {link.label}
-          </a>
-        </li>
-      ))}
+<div class="mobile-menu bg-bg-white p-xl fixed inset-0 top-12 z-[99] flex flex-col md:hidden" data-mobile-menu>
+  <nav class="gap-xl flex h-full flex-col justify-between">
+    <ul class="gap-lg m-0 flex list-none flex-col p-0">
+      {
+        navLinks.map(link => (
+          <li>
+            <a
+              href={link.href}
+              class="font-body text-text hover:text-primary-500 text-lg font-medium no-underline"
+              data-menu-close
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
     </ul>
-    
-    <a href={ctaHref} class="inline-flex items-center justify-center gap-sm py-md px-lg bg-primary-500 text-text-contrast font-body text-md font-bold rounded-full no-underline" data-menu-close>
+
+    <a
+      href={ctaHref}
+      class="gap-sm py-md px-lg bg-primary-500 text-text-contrast font-body text-md inline-flex items-center justify-center rounded-full font-bold no-underline"
+      data-menu-close
+    >
       {ctaText}
     </a>
   </nav>
@@ -104,7 +127,7 @@ const ctaHref = toAnchor(header.Contact.url);
         document.body.classList.toggle('menu-open');
       });
 
-      menuCloseLinks.forEach((link) => {
+      menuCloseLinks.forEach(link => {
         link.addEventListener('click', () => {
           menuToggle.setAttribute('aria-expanded', 'false');
           menuToggle.classList.remove('active');
@@ -115,27 +138,27 @@ const ctaHref = toAnchor(header.Contact.url);
     }
 
     // Smooth scroll with header offset
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener('click', (e) => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', e => {
         const href = anchor.getAttribute('href');
         if (!href || href === '#') return;
-        
+
         const target = document.querySelector(href);
         if (!target) return;
-        
+
         e.preventDefault();
-        
+
         // Get header height for offset
         const header = document.querySelector('header');
         const headerHeight = header?.offsetHeight ?? 0;
-        
+
         const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerHeight;
-        
+
         window.scrollTo({
           top: targetPosition,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
-        
+
         // Update URL without jumping
         history.pushState(null, '', href);
       });

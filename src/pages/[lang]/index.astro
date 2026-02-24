@@ -3,13 +3,7 @@ import { LANGUAGES } from '@core/constants';
 import Layout from '@layouts/Layout.astro';
 import { Header, Footer } from '@layouts/components';
 import { getHeader, getHomeMetaData } from '@layouts/api';
-import { 
-  HeroSection, 
-  MenuSection, 
-  RestaurantSection, 
-  LocationSection, 
-  ReservationsSection 
-} from '@pods/home';
+import { HeroSection, MenuSection, RestaurantSection, LocationSection, ReservationsSection } from '@pods/home';
 import type { LanguageCode } from '@content-island/api-client';
 
 interface Props {
@@ -52,6 +46,6 @@ const sectionIds = {
     <LocationSection lang={lang} sectionId={sectionIds.location} />
     <ReservationsSection lang={lang} sectionId={sectionIds.contact} />
   </main>
-  
+
   <Footer lang={lang} />
 </Layout>

@@ -1,12 +1,17 @@
 ---
+import { LANGUAGE_NAMES, LANGUAGES } from '@/core/constants';
 import type { LanguageCode } from '@content-island/api-client';
 import { getFooter } from '@layouts/api';
 
 interface Props {
   lang?: LanguageCode;
+  languagePaths?: Partial<Record<LanguageCode, string>>;
 }
 
-const { lang = 'en' } = Astro.props;
+const { lang = 'en', languagePaths } = Astro.props;
+const currentPath = Astro.url.pathname;
+const [, , ...pathSegments] = currentPath.split('/').filter(Boolean);
+const currentSlug = pathSegments.join('/');
 
 const footer = await getFooter(lang);
 
@@ -21,71 +26,105 @@ const cookiesLink = footer.cookies;
 const privacyLink = footer.privacyPolicy;
 ---
 
-<footer class="bg-secondary-900 p-4 md:p-xl">
-  <div class="flex flex-col gap-lg w-full max-w-[var(--container-max-width)] mx-auto pb-md">
+<footer class="bg-secondary-900 md:p-xl p-4">
+  <div class="gap-lg pb-md mx-auto flex w-full max-w-[var(--container-max-width)] flex-col">
     <!-- Top Section: Brand + Social + Contact (gap-xl between them) -->
-    <div class="flex flex-col gap-xl">
-      <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-xl w-full">
-      <!-- Brand Section -->
-      <div class="flex flex-col gap-sm">
-        <a href="/" class="font-title text-md font-bold text-primary-500 no-underline hover:text-primary-500-400 transition-colors leading-[1.15]">
-          {siteName}
-        </a>
-        <p class="font-body text-base text-secondary-300 m-0">
-          {tagline}
-        </p>
-      </div>
-      
-      <!-- Social Links -->
-      {socialMediaCollection.length > 0 && (
-        <div class="flex flex-col gap-md">
-          <p class="font-body text-xs font-medium text-secondary-50 m-0">
-            {socialMediaTitle}
+    <div class="gap-xl flex flex-col">
+      <div class="gap-xl flex w-full flex-col md:flex-row md:items-start md:justify-between">
+        <!-- Brand Section -->
+        <div class="gap-sm flex flex-col">
+          <a
+            href="/"
+            class="font-title text-md text-primary-500 hover:text-primary-500-400 leading-[1.15] font-bold no-underline transition-colors"
+          >
+            {siteName}
+          </a>
+          <p class="font-body text-secondary-300 m-0 text-base">
+            {tagline}
           </p>
-          <div class="flex gap-md">
-            {socialMediaCollection.map((social) => (
-              <a 
-                href={social.url} 
-                class="flex items-center justify-center hover:opacity-80 transition-opacity" 
-                aria-label={social.title} 
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                {social.image?.url ? (
-                  <img 
-                    src={social.image.url} 
-                    alt={social.title} 
-                    width="24" 
-                    height="24"
-                  />
-                ) : (
-                  <span class="text-sm text-white">{social.title}</span>
-                )}
-              </a>
-            ))}
-          </div>
         </div>
-      )}
+
+        <!-- Social Links -->
+        {
+          socialMediaCollection.length > 0 && (
+            <div class="gap-md flex flex-col">
+              <p class="font-body text-secondary-50 m-0 text-xs font-medium">{socialMediaTitle}</p>
+              <div class="gap-md flex">
+                {socialMediaCollection.map(social => (
+                  <a
+                    href={social.url}
+                    class="flex items-center justify-center transition-opacity hover:opacity-80"
+                    aria-label={social.title}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {social.image?.url ? (
+                      <img src={social.image.url} alt={social.title} width="24" height="24" />
+                    ) : (
+                      <span class="text-sm text-white">{social.title}</span>
+                    )}
+                  </a>
+                ))}
+              </div>
+              {LANGUAGES.length > 1 && (
+                <select
+                  id="language-select"
+                  aria-label="Select language"
+                  class="bg-primary-950 dark:bg-primary-900 text-primary-50 border-primary-50 focus-visible:outline-primary-400 w-full max-w-[219px] cursor-pointer appearance-none border bg-[url('/ArrowDown.svg')] bg-size-[28px] bg-position-[calc(100%-6px)_50%] bg-no-repeat px-(--spacing-sm) py-[6.4px] pr-[38px] text-[14px] focus-visible:border-transparent focus-visible:outline-[1.5px]"
+                  style="grid-area: language;"
+                >
+                  {LANGUAGES.map(language => {
+                    const slugPart = currentSlug ? `/${currentSlug}` : '/';
+                    const optionValue = languagePaths?.[language] ?? `/${language}${slugPart}`;
+                    return (
+                      <option value={optionValue} selected={lang === language}>
+                        {LANGUAGE_NAMES[language]}
+                      </option>
+                    );
+                  })}
+                </select>
+              )}
+            </div>
+          )
+        }
       </div>
-      
+
       <!-- Contact Info -->
-      <div class="flex flex-col gap-sm">
-        <p class="font-body text-base text-secondary-50 m-0">{contactInfo}</p>
-        <p class="font-body text-base text-secondary-50 m-0">{addressLine}</p>
+      <div class="gap-sm flex flex-col">
+        <p class="font-body text-secondary-50 m-0 text-base">{contactInfo}</p>
+        <p class="font-body text-secondary-50 m-0 text-base">{addressLine}</p>
       </div>
     </div>
   </div>
-  
+
   <!-- Bottom Section -->
-  <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-sm pt-lg pb-0 border-t border-secondary-700 w-full max-w-[var(--container-max-width)] mx-auto">
+  <div
+    class="gap-sm pt-lg border-secondary-700 mx-auto flex w-full max-w-[var(--container-max-width)] flex-col items-start border-t pb-0 md:flex-row md:items-center md:justify-between"
+  >
     <p class="font-body text-2xs text-secondary-200 m-0">{copyright}</p>
-    <div class="flex gap-md">
-      <a href={cookiesLink.url} class="font-body text-2xs text-secondary-200 no-underline hover:text-secondary-50 transition-colors">
+    <div class="gap-md flex">
+      <a
+        href={cookiesLink.url}
+        class="font-body text-2xs text-secondary-200 hover:text-secondary-50 no-underline transition-colors"
+      >
         {cookiesLink.label}
       </a>
-      <a href={privacyLink.url} class="font-body text-2xs text-secondary-200 no-underline hover:text-secondary-50 transition-colors">
+      <a
+        href={privacyLink.url}
+        class="font-body text-2xs text-secondary-200 hover:text-secondary-50 no-underline transition-colors"
+      >
         {privacyLink.label}
       </a>
     </div>
   </div>
 </footer>
+
+<script>
+  const languageSelect = document.getElementById('language-select') as HTMLSelectElement;
+  if (languageSelect) {
+    languageSelect.addEventListener('change', event => {
+      const target = event.target as HTMLSelectElement;
+      window.location.href = target.value;
+    });
+  }
+</script>
