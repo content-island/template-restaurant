@@ -18,7 +18,7 @@ import type {
 export const getTheme = async (lang: LanguageCode): Promise<Theme> =>
   await client.getContent<Theme>({
     id: '6974c19022a84329b8c56dcd',
-   contentType: 'Theme',
+    contentType: 'Theme',
     language: lang,
     includeRelatedContent: true,
   });
@@ -95,4 +95,13 @@ export const getFooter = async (lang: LanguageCode): Promise<Footer> =>
     contentType: 'Footer',
     language: lang,
     includeRelatedContent: true,
+  });
+
+/**
+ * Get Meta Data for the page (singleton)
+ */
+export const getHomeMetaData = async (lang: LanguageCode): Promise<PageMeta> =>
+  await client.getContent<PageMeta>({
+    contentType: 'PageMeta',
+    language: lang,
   });

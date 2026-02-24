@@ -10,7 +10,8 @@
       "@models/*": ["src/common/models/*"],
       "@layouts/*": ["src/layouts/*"],
       "@pods/*": ["src/pods/*"],
-      "@lib/*": ["src/lib/*"]
+      "@lib/*": ["src/lib/*"],
+      "@core/*": ["src/core/*"]
     }
   }
 }

@@ -1,0 +1,51 @@
+---
+import { LANGUAGES } from '@core/constants';
+import Layout from '@layouts/Layout.astro';
+import { Header, Footer } from '@layouts/components';
+import { getHeader, getHomeMetaData } from '@layouts/api';
+import { HeroSection, MenuSection, RestaurantSection, LocationSection, ReservationsSection } from '@pods/home';
+import type { LanguageCode } from '@content-island/api-client';
+
+interface Props {
+  params: {
+    lang: LanguageCode;
+  };
+}
+
+const { lang } = Astro.params as Props['params'];
+const { title, description } = await getHomeMetaData(lang);
+
+export const getStaticPaths = () =>
+  LANGUAGES.map(lang => ({
+    params: {
+      lang,
+    },
+  }));
+
+// Get header data to extract section IDs from navigation URLs
+const header = await getHeader(lang);
+
+// Helper to extract section ID from URL (e.g., "/menu" -> "menu", "/#services" -> "services")
+const extractSectionId = (url: string): string => url.replace(/^\/?#?/, '');
+
+// Extract section IDs from Content Island navigation items
+const sectionIds = {
+  menu: extractSectionId(header.Menu.url),
+  restaurant: extractSectionId(header.Restaurant.url),
+  location: extractSectionId(header.Location.url),
+  contact: extractSectionId(header.Contact.url),
+};
+---
+
+<Layout lang={lang} title={title} description={description}>
+  <Header lang={lang} />
+  <main>
+    <HeroSection lang={lang} contactSectionId={sectionIds.contact} />
+    <MenuSection lang={lang} sectionId={sectionIds.menu} />
+    <RestaurantSection lang={lang} sectionId={sectionIds.restaurant} />
+    <LocationSection lang={lang} sectionId={sectionIds.location} />
+    <ReservationsSection lang={lang} sectionId={sectionIds.contact} />
+  </main>
+
+  <Footer lang={lang} />
+</Layout>
