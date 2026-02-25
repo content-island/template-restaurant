@@ -1,0 +1,20 @@
+---
+import type { LanguageCode } from '@content-island/api-client';
+import { sanitizeHTMLWithMarked } from '@core/helpers';
+import { getCookies } from './api';
+
+interface Props {
+  lang: LanguageCode;
+}
+
+const { lang } = Astro.props as Props;
+const { text } = await getCookies(lang);
+const htmlContent = await sanitizeHTMLWithMarked(text);
+---
+
+<main class="mx-auto max-w-[900px] py-20">
+  <div
+    set:html={htmlContent}
+    class="prose prose-slate [&>h1]:mb-lg [&>h1]:text-text-90 [&>h2]:mt-xl [&>h2]:mb-md [&>h2]:text-text-90 [&>h3]:mt-lg [&>h3]:mb-sm [&>h3]:text-text-90 [&>p]:text-text-85 [&>p]:mb-md [&>ul]:ml-lg [&>ul]:mb-md [&>ul]:text-text-85 [&>ol]:ml-lg [&>ol]:mb-md [&>ol]:text-text-85 [&>li]:mb-xs [&>strong]:text-text-90 [&>a]:text-primary [&>a:hover]:text-primary/80 [&>code]:bg-background-secondary [&>pre]:bg-background-secondary [&>pre]:p-md [&>pre]:mb-md [&>blockquote]:border-primary [&>blockquote]:pl-md [&>blockquote]:text-text-70 max-w-none [&>a]:underline [&>a]:transition-colors [&>blockquote]:border-l-4 [&>blockquote]:italic [&>code]:rounded [&>code]:px-1 [&>code]:py-0.5 [&>code]:text-sm [&>h1]:text-3xl [&>h1]:font-bold [&>h2]:text-2xl [&>h2]:font-semibold [&>h3]:text-xl [&>h3]:font-semibold [&>ol]:list-decimal [&>p]:leading-relaxed [&>pre]:overflow-x-auto [&>pre]:rounded [&>strong]:font-semibold [&>ul]:list-disc"
+  />
+</main>
