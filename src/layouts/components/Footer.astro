@@ -9,8 +9,9 @@ interface Props {
 }
 
 const { lang = 'en', languagePaths } = Astro.props;
+
 const currentPath = Astro.url.pathname;
-const [, , ...pathSegments] = currentPath.split('/').filter(Boolean);
+const [, ...pathSegments] = currentPath.split('/').filter(Boolean);
 const currentSlug = pathSegments.join('/');
 
 const footer = await getFooter(lang);
@@ -108,13 +109,13 @@ const privacyLink = footer.privacyPolicy;
     <p class="font-body text-2xs text-secondary-200 m-0">{copyright}</p>
     <div class="gap-md flex">
       <a
-        href={cookiesLink.url}
+        href={`/${lang}${cookiesLink.url}`}
         class="font-body text-2xs text-secondary-200 hover:text-secondary-50 no-underline transition-colors"
       >
         {cookiesLink.label}
       </a>
       <a
-        href={privacyLink.url}
+        href={`/${lang}${privacyLink.url}`}
         class="font-body text-2xs text-secondary-200 hover:text-secondary-50 no-underline transition-colors"
       >
         {privacyLink.label}
