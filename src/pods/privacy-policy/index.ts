@@ -1,1 +1,1 @@
-export { getPrivacyPolicyMeta, getPrivacyPolicy } from './api';
+export { getPrivacyPolicy } from './api';

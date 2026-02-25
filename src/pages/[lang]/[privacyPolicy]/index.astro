@@ -1,16 +1,13 @@
 ---
 import type { LanguageCode } from '@content-island/api-client';
 import { LANGUAGES } from '@core/constants';
-import { generateLanguagePaths } from '@core/helpers';
 import Layout from '@layouts/Layout.astro';
-import { Header, Footer } from '@layouts/components';
 import PrivacyPolicyComponent from '@pods/privacy-policy/PrivacyPolicy.astro';
-import { getPrivacyPolicyMeta, getPrivacyPolicy } from '@pods/privacy-policy';
+import { getPrivacyPolicy } from '@pods/privacy-policy';
 
 interface Props {
   params: {
     lang: LanguageCode;
-    privacyPolicy: string;
   };
 }
 
@@ -23,14 +20,13 @@ export const getStaticPaths = async () => {
 };
 
 const { lang } = Astro.params as Props['params'];
-const { title, description } = await getPrivacyPolicyMeta(lang);
-
-const privacyPolicies = await Promise.all(LANGUAGES.map(getPrivacyPolicy));
-const languagePaths = generateLanguagePaths(privacyPolicies);
+// const { title, description } = await getPrivacyPolicyMeta(lang);
 ---
 
-<Layout lang={lang} title={title} description={description}>
-  <Header lang={lang} />
+<Layout
+  lang={lang}
+  title="Privacy Policy"
+  description="Read our privacy policy to learn how we handle your data. We value your privacy and are committed to protecting it."
+>
   <PrivacyPolicyComponent lang={lang} />
-  <Footer lang={lang} languagePaths={languagePaths} />
 </Layout>

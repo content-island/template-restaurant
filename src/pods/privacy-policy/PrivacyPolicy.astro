@@ -9,7 +9,6 @@ interface Props {
 
 const { lang } = Astro.props as Props;
 const { text } = await getPrivacyPolicy(lang);
-console.log('Raw privacy policy text:', text); // Debug log to check raw text
 const htmlContent = sanitizeHTMLWithMarked(text);
 ---
 
