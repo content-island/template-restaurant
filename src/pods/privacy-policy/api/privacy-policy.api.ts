@@ -9,8 +9,8 @@ export const getPrivacyPolicy = async (lang: LanguageCode): Promise<PrivacyPolic
     language: lang,
   });
 
-// export const getPrivacyPolicyMeta = async (lang: LanguageCode): Promise<PageMeta> =>
-//   await client.getContent<PageMeta>({
-//     id: '6931a481a89fe07e8789dc44',
-//     language: lang,
-//   });
+export const getPrivacyPolicyMeta = async (lang: LanguageCode): Promise<PageMeta> =>
+  await client.getContent<PageMeta>({
+    'fields.pageId': 'PrivacyPolicy',
+    language: lang,
+  });

@@ -28,7 +28,7 @@ export const getTheme = async (lang: LanguageCode): Promise<Theme> =>
  */
 export const getPageMeta = async (lang: LanguageCode): Promise<PageMeta> =>
   await client.getContent<PageMeta>({
-    contentType: 'PageMeta',
+    'fields.pageId': 'Home',
     language: lang,
   });
 

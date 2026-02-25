@@ -52,6 +52,7 @@ export interface Theme {
 export interface PageMeta {
   id: string;
   title: string;
+  pageId: string;
   description: string;
   language: LanguageCode;
 }
