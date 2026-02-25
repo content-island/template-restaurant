@@ -9,7 +9,7 @@ interface Props {
 
 const { lang } = Astro.props as Props;
 const { text } = await getPrivacyPolicy(lang);
-const htmlContent = sanitizeHTMLWithMarked(text);
+const htmlContent = await sanitizeHTMLWithMarked(text);
 ---
 
 <main class="mx-auto max-w-[900px] py-20">
