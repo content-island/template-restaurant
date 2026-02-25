@@ -11,7 +11,8 @@
       "@layouts/*": ["src/layouts/*"],
       "@pods/*": ["src/pods/*"],
       "@lib/*": ["src/lib/*"],
-      "@core/*": ["src/core/*"]
+      "@core/*": ["src/core/*"],
+      "@common/*": ["src/common/*"]
     }
   }
 }
