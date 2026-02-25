@@ -1,0 +1,28 @@
+---
+import type { LanguageCode } from '@content-island/api-client';
+import { LANGUAGES } from '@core/constants';
+import Layout from '@layouts/Layout.astro';
+import CookiesComponent from '@pods/cookies/Cookies.astro';
+import { getCookies, getCookiesMeta } from '@pods/cookies';
+
+interface Props {
+  params: {
+    lang: LanguageCode;
+  };
+}
+
+export const getStaticPaths = async () => {
+  const cookies = await Promise.all(LANGUAGES.map(getCookies));
+
+  return cookies.map(({ language, slug }) => ({
+    params: { lang: language, cookies: slug },
+  }));
+};
+
+const { lang } = Astro.params as Props['params'];
+const { title, description } = await getCookiesMeta(lang);
+---
+
+<Layout lang={lang} title={title} description={description}>
+  <CookiesComponent lang={lang} />
+</Layout>
