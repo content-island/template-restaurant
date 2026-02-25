@@ -10,6 +10,7 @@ import type {
   LocationSection,
   ReservationsSection,
   Footer,
+  CookieBanner,
 } from '@models/index';
 
 /**
@@ -96,4 +97,13 @@ export const getFooter = async (lang: LanguageCode): Promise<Footer> =>
     contentType: 'Footer',
     language: lang,
     includeRelatedContent: true,
+  });
+
+/**
+ * Get cookie banner content (singleton)
+ */
+export const getCookieBanner = async (lang: LanguageCode) =>
+  await client.getContent<CookieBanner>({
+    contentType: 'CookieBanner',
+    language: lang,
   });
