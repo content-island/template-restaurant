@@ -1,6 +1,7 @@
 ---
 import type { LanguageCode } from '@content-island/api-client';
-import { getTheme, getPageMeta, getHeader } from '@layouts/api';
+import { getTheme, getPageMeta, getHeader, getFooter } from '@layouts/api';
+import CookieBanner from '@layouts/components/CookieBanner.astro';
 import '@/styles/global.css';
 
 interface Props {
@@ -12,7 +13,8 @@ interface Props {
 const { lang = 'en' } = Astro.props;
 
 // Fetch content from Content Island
-const [theme, pageMeta, header] = await Promise.all([getTheme(lang), getPageMeta(lang), getHeader(lang)]);
+const [theme, pageMeta, header, footer] = await Promise.all([getTheme(lang), getPageMeta(lang), getHeader(lang), getFooter(lang)]);
+const cookiesPageUrl = `/${lang}${footer.cookies.url}`;
 
 // Build dynamic CSS variables from Content Island theme
 const themeVariables = `
@@ -62,5 +64,6 @@ const fontBodyUrl = theme.fontBody.url;
   </head>
   <body>
     <slot />
+    <CookieBanner lang={lang} cookiesPageUrl={cookiesPageUrl} />
   </body>
 </html>
