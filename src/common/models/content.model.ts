@@ -134,3 +134,12 @@ export interface PrivacyPolicy {
   text?: string;
   language: LanguageCode;
 }
+
+export interface CookieBanner {
+  id: string;
+  title: string;
+  description: string;
+  learnMore: string;
+  acceptAll: string;
+  onlyEssential: string;
+}

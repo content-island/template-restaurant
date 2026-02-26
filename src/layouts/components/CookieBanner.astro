@@ -1,0 +1,149 @@
+---
+import type { LanguageCode } from '@content-island/api-client';
+import { getCookieBanner } from '../api';
+
+interface Props {
+  lang: LanguageCode;
+  cookiesPageUrl: string;
+}
+
+const { lang, cookiesPageUrl } = Astro.props;
+
+const { title, description, learnMore, acceptAll, onlyEssential } = await getCookieBanner(lang);
+---
+
+<!-- Backdrop (separate from banner so fixed positioning works) -->
+<div id="cookie-backdrop" class="fixed inset-0 z-[100] hidden bg-black/40"></div>
+
+<!-- Banner -->
+<div
+  id="cookie-banner"
+  style="display:none;"
+  class="border-primary-200 bg-bg-white fixed right-0 bottom-0 left-0 z-[101] border-t shadow-lg"
+>
+  <div
+    class="gap-lg p-lg mx-auto flex w-full max-w-[var(--container-max-width)] flex-col md:flex-row md:items-center md:justify-between"
+  >
+    <!-- Text Section -->
+    <div class="gap-sm flex min-w-0 flex-1 flex-col">
+      <h2 class="font-title text-md text-text-90 m-0 font-bold">{title}</h2>
+      <p class="font-body text-text-85 m-0 text-xs leading-relaxed">
+        {description}
+        <a href={cookiesPageUrl} class="text-primary-500 hover:text-primary-600 underline">
+          {learnMore}
+        </a>
+      </p>
+    </div>
+
+    <!-- Buttons Section -->
+    <div class="gap-sm flex shrink-0 flex-col sm:flex-row">
+      <button
+        id="cookie-accept"
+        type="button"
+        class="bg-primary-500 px-lg py-sm-md font-body text-text-contrast hover:bg-primary-600 cursor-pointer rounded-full text-xs font-bold whitespace-nowrap transition-colors"
+      >
+        {acceptAll}
+      </button>
+      <button
+        id="cookie-reject"
+        type="button"
+        class="border-primary-500 px-lg py-sm-md font-body text-primary-500 hover:bg-primary-600 hover:text-text-contrast cursor-pointer rounded-full border bg-transparent text-xs font-semibold whitespace-nowrap transition-colors"
+      >
+        {onlyEssential}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function getConsent(): string | null {
+    try {
+      return localStorage.getItem('cookie-consent');
+    } catch {
+      return null;
+    }
+  }
+
+  function setConsent(value: string): boolean {
+    try {
+      localStorage.setItem('cookie-consent', value);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  // ============================================================
+  // EXAMPLE: Google Analytics (GA4) integration
+  // Replace 'G-XXXXXXXXXX' with your actual GA4 Measurement ID.
+  // You can add any other tracking scripts here (e.g., Meta Pixel,
+  // Hotjar, etc.) — they will only load when the user accepts cookies.
+  // ============================================================
+  function loadTrackingScripts(): void {
+    const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    document.head.appendChild(script);
+
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    function gtag(...args: any[]) {
+      (window as any).dataLayer.push(args);
+    }
+    gtag('js', new Date());
+    gtag('config', GA_MEASUREMENT_ID);
+  }
+
+  function showBanner(): void {
+    const banner = document.getElementById('cookie-banner');
+    const backdrop = document.getElementById('cookie-backdrop');
+    if (banner) {
+      banner.style.display = '';
+      banner.setAttribute('aria-hidden', 'false');
+    }
+    if (backdrop) backdrop.classList.remove('hidden');
+  }
+
+  function hideBanner(): void {
+    const banner = document.getElementById('cookie-banner');
+    const backdrop = document.getElementById('cookie-backdrop');
+    if (banner) {
+      banner.style.display = 'none';
+      banner.setAttribute('aria-hidden', 'true');
+    }
+    if (backdrop) backdrop.classList.add('hidden');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const acceptBtn = document.getElementById('cookie-accept');
+    const rejectBtn = document.getElementById('cookie-reject');
+
+    if (!acceptBtn || !rejectBtn) return;
+
+    const consent = getConsent();
+
+    if (consent === 'accepted') {
+      loadTrackingScripts();
+      return;
+    }
+
+    if (consent === 'rejected') {
+      return;
+    }
+
+    // No consent stored — show banner
+    showBanner();
+
+    acceptBtn.addEventListener('click', () => {
+      setConsent('accepted');
+      hideBanner();
+      loadTrackingScripts();
+    });
+
+    rejectBtn.addEventListener('click', () => {
+      setConsent('rejected');
+      hideBanner();
+    });
+  });
+</script>
