@@ -42,6 +42,7 @@ export interface Font {
 
 export interface Theme {
   id: string;
+  name: string;
   colorPrimary: string;
   colorSecondary: string;
   fontTitle: Font;

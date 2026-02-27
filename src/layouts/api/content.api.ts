@@ -19,6 +19,7 @@ import type {
 export const getTheme = async (lang: LanguageCode): Promise<Theme> =>
   await client.getContent<Theme>({
     contentType: 'Theme',
+    'fields.name': 'pizza',
     language: lang,
     includeRelatedContent: true,
   });
