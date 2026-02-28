@@ -11,7 +11,18 @@ import type {
   ReservationsSection,
   Footer,
   CookieBanner,
+  General,
 } from '@models/index';
+
+
+/**
+ * Get general site information (favIcon)
+ */
+export const getGeneral = async (lang: LanguageCode) =>
+  await client.getContent<General>({
+    contentType: 'General',
+    language: lang,
+  });
 
 /**
  * Get theme configuration (singleton)
