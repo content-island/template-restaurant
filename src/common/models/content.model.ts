@@ -119,6 +119,7 @@ export interface ReservationsSection {
   description: string;
   phone: string;
   email?: string;
+  emailAddress?: string;
   additionalText?: string;
   language: LanguageCode;
 }
