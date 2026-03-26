@@ -15,8 +15,7 @@
     "@content-island/api-client": "^0.17.0",
     "astro": "^5.18.1",
     "marked": "^17.0.4",
-    "sanitize-html": "^2.17.2",
-    "typescript": "^6.0.2"
+    "sanitize-html": "^2.17.2"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.2",
@@ -24,6 +23,7 @@
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "tailwindcss": "^4.2.2"
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5.9.3"
   }
 }
