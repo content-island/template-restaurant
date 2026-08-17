@@ -11,7 +11,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.9",
+    "@astrojs/check": "^0.9.10",
     "@content-island/api-client": "^0.24.0",
     "astro": "^6.4.8",
     "marked": "^18.0.7",
