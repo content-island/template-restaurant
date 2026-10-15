@@ -14,7 +14,7 @@
     "@astrojs/check": "^0.9.10",
     "@content-island/api-client": "^0.26.0",
     "astro": "^7.3.8",
-    "marked": "^18.0.14",
+    "marked": "^18.1.1",
     "sanitize-html": "^2.18.0",
     "typescript": "^6.0.3"
   },
